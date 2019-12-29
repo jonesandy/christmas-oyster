@@ -11,8 +11,12 @@ class Oystercard
   def top_up(amount)
     error = "Maximum balance of #{MAX_BALANCE} exceeded!"
     raise error if max_balance_exceeded?(amount)
-    
+
     @balance += amount
+  end
+
+  def deduct(amount)
+    @balance -= amount
   end
 
   private 
