@@ -11,16 +11,12 @@ describe Oystercard do
   describe '#in_journey?' do
 
     it 'is initially not in journey' do
-
       expect(card).not_to be_in_journey
-
     end
 
   end
 
   describe '#top_up' do
-
-    it { is_expected.to respond_to(:top_up).with(1).argument }
 
     it 'tops up balance' do
       expect { card.top_up(1) }.to change { card.balance }.by(1)
@@ -38,21 +34,12 @@ describe Oystercard do
 
     before(:each) do
       card.top_up(20)
-    end
-
-    describe '#deduct' do
-
-      it 'deducts money' do
-        expect { card.deduct(3) }.to change { card.balance }.by(-3)
-      end
-  
+      card.touch_in
     end
 
     describe '#touch_in' do
 
       it 'changes card to in journey' do
-        card.touch_in
-  
         expect(card).to be_in_journey
       end
   
@@ -61,10 +48,13 @@ describe Oystercard do
     describe '#touch_out' do
 
       it 'changes card to in journey' do
-        card.touch_in
         card.touch_out
   
         expect(card).not_to be_in_journey
+      end
+
+      it 'charges card with fare' do
+        expect { card.touch_out }.to change { card.balance }.by(-Oystercard::MINIMUM_FARE)
       end
   
     end
