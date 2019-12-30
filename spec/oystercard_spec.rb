@@ -4,6 +4,7 @@ describe Oystercard do
 
   let(:card) { described_class.new }
   let(:euston) { double :station }
+  let(:bank) { double :station }
 
   it 'has a zero balance at start' do
     expect(card.balance).to eq(0)
@@ -53,13 +54,19 @@ describe Oystercard do
     describe '#touch_out' do
 
       it 'changes card to in journey' do
-        card.touch_out
+        card.touch_out(bank)
   
         expect(card).not_to be_in_journey
       end
 
       it 'charges card with fare' do
-        expect { card.touch_out }.to change { card.balance }.by(-Oystercard::MINIMUM_FARE)
+        expect { card.touch_out(bank) }.to change { card.balance }.by(-Oystercard::MINIMUM_FARE)
+      end
+
+      it 'stores exit station' do
+        card.touch_out(bank)
+
+        expect(card.exit_station).to eq(bank)
       end
   
     end
