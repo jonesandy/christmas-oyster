@@ -68,7 +68,7 @@ describe Oystercard do
 
         expect(card.exit_station).to eq(bank)
       end
-  
+      
     end
 
   end
