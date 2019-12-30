@@ -7,7 +7,6 @@ class Oystercard
 
   def initialize
     @balance = 0
-    @in_journey = false
     @entry_station = nil
   end 
 
@@ -22,17 +21,16 @@ class Oystercard
     error = "Insufficient balance for journey."
     raise error if @balance < MINIMUM_FARE
 
-    @in_journey = true
     @entry_station = station
   end
 
   def touch_out
-    @in_journey = false
     deduct(MINIMUM_FARE)
+    @entry_station = nil
   end
 
   def in_journey?
-    @in_journey
+    !!@entry_station
   end
 
   private 
