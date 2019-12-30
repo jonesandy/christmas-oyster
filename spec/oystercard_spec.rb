@@ -3,6 +3,7 @@ require 'oystercard'
 describe Oystercard do
 
   let(:card) { described_class.new }
+  let(:euston) { double :station }
 
   it 'has a zero balance at start' do
     expect(card.balance).to eq(0)
@@ -34,13 +35,17 @@ describe Oystercard do
 
     before(:each) do
       card.top_up(20)
-      card.touch_in
+      card.touch_in(euston)
     end
 
     describe '#touch_in' do
 
       it 'changes card to in journey' do
         expect(card).to be_in_journey
+      end
+
+      it 'stores the touch in station' do
+        expect(card.entry_station).to eq(euston)
       end
   
     end
@@ -67,7 +72,7 @@ describe Oystercard do
 
       it 'raises error if not enough funds' do
 
-        expect { card.touch_in }.to raise_error("Insufficient balance for journey.")
+        expect { card.touch_in(euston) }.to raise_error("Insufficient balance for journey.")
 
       end
   
