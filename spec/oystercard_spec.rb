@@ -71,4 +71,18 @@ describe Oystercard do
 
   end
 
+  context 'card has 0 balance' do
+
+    describe '#touch_in' do
+
+      it 'raises error if not enough funds' do
+
+        expect { card.touch_in }.to raise_error("Insufficient balance for journey.")
+
+      end
+  
+    end
+
+  end
+
 end
